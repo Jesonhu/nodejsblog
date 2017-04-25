@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <title>首页</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.css">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/index.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="/js/web.js"></script>
+</head>
+<body>
+    <!--头部开始-->
+        <% include header.ejs %>
+    <!--头部结束-->
+
+    <div class="container">
+        <div class="row">
+            <!--左侧分类开始-->
+            <div class="col-md-2 hidden-sm hidden-xs">
+                <!--nav start-->
+                <div class="row">
+                    <div class="navwrap">
+                    <!--panel start-->
+
+                    <div class="panel">
+                        <div class="panel-heading active">
+                            <a data-target="#sub-nav1" data-toggle="collapse" data-parent=".navwrap">
+                                <i class="icon-globe"></i>前端
+                            </a>
+                        </div>
+                        <div class="panel-body collapse in" id="sub-nav1">
+                            <ul>
+                                <li><a href="/article_list/1/1.html">html+css</a></li>
+                                <li><a href="/article_list/2/1.html">html5</a></li>
+                                <li><a href="/article_list/4/1.html">css3</a></li>
+                                <li><a href="/article_list/5/1.html">js</a></li>
+                                <li><a href="/article_list/6/1.html">jquery</a></li>
+                                <li><a href="/article_list/7/1.html">angularjs</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <a data-target="#sub-nav2" data-toggle="collapse" data-parent=".navwrap">
+                                <i class="icon-globe"></i>后端
+                            </a>
+                        </div>
+                        <div class="panel-body collapse" id="sub-nav2">
+                            <ul>
+                                <li><a href="/article_list/8/1.html">nodeJS</a></li>
+                                <li><a href="/article_list/9/1.html">mySql</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--end panel-->
+                </div>
+                </div>
+                <!--end nav-->
+            </div>
+            <!--左侧分类结束-->
+
+            <!--自动轮播区域开始-->
+            <div class="col-md-6 col-sm-12">
+                <!--banner1-->
+                <div class="con1-p-slide pull-left carousel">
+                    <div class="b-pic">
+                        <ul class="clearfix img">
+                            <% for(let i in data1){%>
+                            <li>
+                                <a href=""><img src="<%= data1[i]['url']%>" alt="r3" width="100%" height="100%"/></a>
+                            </li>
+                            <%}%>
+                        </ul>
+                    </div>
+                    <div class="tab">
+                        <ul class="clearfix nav">
+                        </ul>
+                    </div>
+                    <div class="button">
+                        <a href="javascript:;" class="prev"></a>
+                        <a href="javascript:;" class="next"></a>
+                    </div>
+                </div>
+
+            </div>
+            <!--自动区域结束-->
+
+            <!--方向轮播开始 -->
+            <div class="col-md-4 right-banner hidden-sm hidden-xs ">
+                <div class="row">
+                    <ul class="wrap-list clearfix">
+                        <li class="top-wrap">
+                            <a href="">
+                                <img src="<%= data2[0]['url']%>" alt="" style="width:100%;height:100%;">
+                            </a>
+                        </li>
+                        <li class="bottom left-wrap">
+                            <a href="">
+                                <img src="<%= data3[0]['url']%>" alt="" style="width:100%;height:100%;">
+                            </a>
+                        </li>
+                        <li class="bottom right-wrap">
+                            <a href="">
+                                <img src="<%= data4[0]['url']%>" alt="" style="width:100%;height:100%;">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!--方向轮播结束-->
+        </div>
+
+        <!--内容区域开始-->
+        <div class="con-wrap">
+            <div class="row">
+                <div class="col-md-7 col-md-offset-2">
+                    <!--文章分类-->
+                    <div class="con2-a-top">
+                        <div class="con2-a-title">
+                            <ul class="clearfix">
+                                <li data-type="0" class="active"><a href="javascript:;">最新</a></li>
+                                <li class="" data-type="1"><a href="javascript:;">HTML</a></li>
+                                <li data-type="5"><a href="javascript:;">JS</a></li>
+                                <li data-type="6"><a href="javascript:;">JQUERY</a></li>
+                                <li data-type="7"><a href="javascript:;">AngularJS</a></li>
+                            </ul>
+                        </div>
+                        <div class="edit pull-right">
+                            <a href=""><i class="glyphicon glyphicon-edit"></i>更多</a>
+                            <a href=""><i class="glyphicon glyphicon-edit"></i>投稿</a>
+                        </div>
+                    </div>
+                    <!--文章列表-->
+                    <div class="article-list-wrap">
+                        <div class="index article-list">
+
+                            <!--all start-->
+                            <ul class="media-list active">
+                                <% for(let i in data){ %>
+                                <li class = "media" data-id="<%= data[i]['id'] %>">
+                                    <a class = "pull-left" href = "javascript:void(0)">
+                                        <img class = "media-object"  src = "<%= data[i]['cover'] %>" alt="1" width="100%" height="100%" />
+                                    </a>
+                                    <div class = "media-body">
+                                        <a href="/article_detail/<%= data[i]['id'] %>.html">
+                                            <h3 class = "media-heading"><%= data[i]['title'] %></h3>
+                                        </a>
+                                        <div class="detail"><%= data[i]['summary'] %>。</div>
+                                        <div class="public">
+                                            <a href="article-detail.html">
+                                                <img class="img-circle" src="<%= data[i]['avatar'] %>" alt="logo"/>
+                                                <span class="public-author"><%= data[i]['author'] %></span>
+                                            </a>
+                                            <span class="public-time"><%= data[i]['time'] %></span>
+                                        <span class="public-like pull-right" data-toggle="tooltip" title="收藏" data-placement="top">
+                                            <i class="icon-heart-empty"></i>
+                                            <em class="like-num"><%= data[i]['store'] %></em>
+                                        </span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <% } %>
+                            </ul>
+                            <!--end all-->
+
+                            <!--class1 start-->
+                            <ul class="media-list">
+                            </ul>
+                            <!--end class1-->
+
+                            <!--class2 start-->
+                            <ul class="media-list">
+                            </ul>
+                            <!--end class2-->
+
+                            <!--class3 start-->
+                            <ul class="media-list">
+                            </ul>
+                            <!--end class3-->
+
+                            <!--class4 start-->
+                            <ul class="media-list">
+                            </ul>
+                            <!--end class5-->
+
+                        </div>
+                        <div class="more">
+                            <a href="/article_list/0/1.html">
+                                <span class="icon-arrow-left"></span>
+                                <span style="padding:0;">点击浏览更多</span>
+                                <span class="icon-arrow-right"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!--右侧最新文章开始-->
+                <div class="col-md-3 visible-lg">
+                    <div class="con-new-list-title">
+                        最新文章
+                    </div>
+                    <div class="time"><%= data5[0]['time']%></div>
+                    <ul>
+                        <li class="new-list-li active" title="点击浏览摘要">
+                            <a href="/article_detail/<%= data5[0]['id']%>.html"><h4><%= data5[0]['title']%></h4></a>
+                            <div class="new-list-content"><%= data5[0]['summary']%></div>
+                        </li>
+                    </ul>
+                    <div class="time"><%= data5[1]['time']%>以后</div>
+                    <ul>
+                        <%for(let i=1;i<data5.length;i++){%>
+                        <li class="new-list-li" title="点击浏览摘要">
+                            <a href="/article_detail/<%= data5[i]['id']%>.html"><h4><%= data5[i]['title']%></h4></a>
+                            <div class="new-list-content"><%= data5[i]['summary']%></div>
+                        </li>
+                        <%}%>
+                    </ul>
+                </div>
+                <!--右侧最新文章结束-->
+            </div>
+        </div>
+        <!--内容区域结束-->
+    </div>
+
+    <!--底部开始-->
+        <% include footer.ejs %>
+    <!--底部结束-->
+
+
+    <script>
+        //使用提示bs工具
+        $('[data-toggle="tooltip"]').tooltip();
+    </script>
+</body>
+</html>

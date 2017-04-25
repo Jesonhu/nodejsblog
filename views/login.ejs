@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <title>登录页面</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+    <!--头部开始-->
+        <% include header.ejs %>
+    <!--头部结束-->
+
+    <!--成功 $.ajax()post登录
+    locals.result -->
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2" id="form-page">
+                <div class="form-wrapper">
+                    <div class="sig-up clearfix">
+                        <h3>登录</h3>
+                        <div class="result"><%- locals.result %></div>
+                        <a href="/reg">还没注册？马上注册</a>
+                    </div>
+                    <div id="loginAjax" class="horizontal">
+                        <div class="form-group clearfix">
+                            <label for="" class="label-con col-md-4">用户名 <span class="require">*</span></label>
+                            <input type="text" class="userName active col-md-6 col-xs-12" placeholder="用户名">
+                            <em class=""></em>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label for="" class="label-con col-md-4">密码 <span class="require">*</span></label>
+                            <input type="password" class="pass col-md-6 col-xs-12" placeholder="设置密码">
+                            <em class=""></em>
+                        </div>
+                        <div class="btn-wrap clearfix">
+                            <button class="submit col-md-6 col-md-offset-4 col-xs-12" type="submit">立即登录</button>
+                        </div>
+                    </div>
+                    <div class="other-login">
+                        <div class="title">使用第三方账号登录</div>
+                        <div class="con">
+                            <a href=""><i class="qq active"></i>QQ登录</a>
+                            <a href=""><i class="wx"></i>微信登录</a>
+                            <a href=""><i class="wb"></i>微博登录</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    <!--<div class="result-wrap">
+
+    </div>
+    <input class="userName form-control" type="text">
+    <input class="pass" type="password">
+    <input class="submit btn btn-success" type="submit" value="登录">-->
+
+    <script>
+        $(function(){
+            //浏览器验证
+            $('#loginAjax input').blur(function() {
+                var msg;
+                $('.result').empty();
+                if ($(this).is('.userName')) { //用户名时
+
+                    if (this.value == '' || this.value.length < 6) {
+                        msg = '请至少输入6位的用户名';
+                        $(this).siblings('em').show().addClass('err').removeClass('ok');
+                    } else {
+                        msg = '用户名格式正确';
+                        $(this).siblings('em').show().addClass('ok').removeClass('err');
+                    }
+                    $('.result').html('<p>' + msg + '</p>');
+                } else if ($(this).is('.pass')) { //密码时
+                    if (this.value == '') {
+                        msg = '密码不能为空'
+                        $(this).siblings('em').show().addClass('err').removeClass('ok');
+                    } else {
+                        msg = '密码格式正确';
+                        $(this).siblings('em').show().addClass('ok').removeClass('err');
+                    }
+                    $('.result').html('<p>' + msg + '</p>');
+                }
+            }).focus(function(){
+                $(this).addClass('active')
+                        //其他和该input不是同父的input
+                        .parents('.form-group').siblings().find('input')
+                        .removeClass('active');
+                $(this).triggerHandler('blur');
+            }).keyup(function(){
+                $(this).triggerHandler('blur');
+            });
+
+
+            //ajax提交
+            $('.submit').click(function(){
+                $('#loginAjax input').trigger('blur');
+                var numError = $('#loginAjax em.err').length;
+                if(numError){ //有错误
+                    return false;
+                }else{
+                    $.ajax({
+                    url: '/login',
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        userName: $('.userName').val(),
+                        pass: $('.pass').val()
+                    },
+                    success: function(data){
+                        //console.log('success: '+ data);
+                        //console.log(data.result);
+                        var result = data.result,
+                            userName = $('.userName').val();
+                        switch(result){
+                            case 0: //未注册过
+                                $('.result').empty()
+                                .html('<p>用户名未注册<a href="/reg">请先注册</a></p>');
+                                break;
+                            case 1: //密码不存在
+                                $('.result').empty()
+                                .html('<p>密码不正确，请重新输入</p>');
+                                break;
+                            case 2:
+                                $('.result').empty()
+                                .html('<p>欢迎回来 '+ userName +'!!!</p>');
+                                setTimeout(function(){
+                                    window.location.href="/";;
+                                },500)
+                        }
+                    },
+                    error: function(data){
+                        console.log('error: '+ data);
+                    }
+                })
+                }
+            });
+        });
+    </script>
+</body>
+</html>

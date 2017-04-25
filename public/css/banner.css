@@ -1,0 +1,83 @@
+/*自动轮播---------------*/
+.carousel{
+    position:relative;
+    width:100%;
+    height:350px;
+}
+.carousel > .b-pic{
+    width:100%;
+    height:100%;
+}
+.carousel > .b-pic ul{
+    width:100%;
+    height:100%;
+}
+.carousel ul li{
+    list-style: none;
+}
+.carousel > .b-pic ul li{
+    float:left;
+    width:100%;
+    height:100%;
+}
+.carousel > .button a{
+    display:block;
+    width:37px;
+    height:73px;
+    position:absolute;
+    top:50%;
+    margin-top:-36px;
+}
+.carousel > .button > .prev{
+    background:url(../img/banner/new-prev01.png) no-repeat;
+    left:0px;
+}
+.carousel > .button > .next{
+    background:url(../img/banner/new-next01.png) no-repeat;
+    right:0px;
+}
+.carousel > .tab{
+    position:absolute;
+    left:50%;
+    margin-left:-32px;
+    bottom:10px;
+}
+.carousel > .tab ul{
+    margin:0px;
+}
+.carousel > .tab li{
+    float:left;
+    width:10px;
+    height:10px;
+    background:rgba(0,0,0,.5);
+    margin:0px 3px;
+    cursor:pointer;
+}
+.carousel > .tab li.hover{
+    background:#037903;
+}
+
+/*右边轮播------------*/
+.right-banner{
+    height:350px;
+}
+.right-banner ul li{
+    list-style: none;
+}
+.right-banner ul.wrap-list>li{
+    float:left;
+    height:167.5px;
+    margin-top:15px;
+}
+/*上*/
+.right-banner ul.wrap-list>li.top-wrap{
+    width:100%;
+    margin-top:0px;
+}
+.right-banner ul.wrap-list>li.bottom{
+    width:48%;
+}
+/*右*/
+.right-banner ul.wrap-list>li.bottom.right-wrap{
+    float:right;
+}

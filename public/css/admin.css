@@ -1,0 +1,7 @@
+/*文章发布页------------------------*/
+.article-pub{
+    height:600px;
+    width:90%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}

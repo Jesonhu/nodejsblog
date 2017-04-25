@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <title>注册</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+    <!--头部开始-->
+    <% include header.ejs %>
+    <!--头部结束-->
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2" id="form-page">
+                <div class="form-wrapper">
+                    <div class="sig-up clearfix">
+                        <h3>注册</h3>
+                        <div class="result"><%- locals.result %></div>
+                        <a href="/login">以有账号，马上登录</a>
+                    </div>
+                    <form action="/reg" method="post" id="regform" class="horizontal">
+                        <div class="form-group clearfix">
+                            <label for="" class="label-con col-md-4">用户名 <span class="require">*</span></label>
+                            <input type="text" class="username active col-md-6 col-xs-12" name="userName" placeholder="用户名">
+                            <em></em>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label for="" class="label-con col-md-4">密码 <span class="require">*</span></label>
+                            <input type="password" class="passworld col-md-6 col-xs-12" name="pass" placeholder="设置密码">
+                            <em></em>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label for="" class="label-con col-md-4">确认密码 <span class="require">*</span></label>
+                            <input type="password" class="conpassword col-md-6 col-xs-12" placeholder="确认密码">
+                            <em></em>
+                        </div>
+                        <p class="agree col-md-offset-2">
+                            <input type="checkbox" class="check-argee">
+                            <span>我已阅读并同意 <a href="">《用户注册协议》</a></span>
+                        </p>
+                        <div class="btn-wrap clearfix">
+                            <button class="submit col-md-6 col-md-offset-4 col-xs-12 btn" type="submit" onsubmit="return mySubmit(true)">立即注册</button>
+                        </div>
+                    </form>
+                    <div class="other-login">
+                        <div class="title">使用第三方账号登录</div>
+                        <div class="con">
+                            <a href=""><i class="qq active"></i>QQ登录</a>
+                            <a href=""><i class="wx"></i>微信登录</a>
+                            <a href=""><i class="wb"></i>微博登录</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--
+        form post方式提交
+    -->
+    <!--<div class="result-wrap">
+    </div>
+    <form action="/reg" method="post">
+        <input type="text" name="userName">
+        <input type="text" name="pass">
+        <input type="submit" value="注册">
+    </form>-->
+
+    <script>
+        $(function(){
+            //浏览器验证
+            var isForm = false,
+                msg;
+            $('#regform input').blur(function(){
+                if( $(this).is('.username') ){ //用户名时
+                    if(this.value == '' || this.value.length < 6){
+                        msg = '请至少输入6位的用户名';
+                        $(this).siblings('em').show().addClass('err').removeClass('ok');
+                    }else{
+                        msg = '用户名格式正确';
+                        $(this).siblings('em').show().addClass('ok').removeClass('err');
+                    }
+                    $('.result').html('<p>' + msg + '</p>');
+                }else if( $(this).is('.passworld') ){ //密码框
+                    if (this.value == '') {
+                        msg = '密码不能为空'
+                        $(this).siblings('em').show().addClass('err').removeClass('ok');
+                    } else {
+                        msg = '密码格式正确';
+                        $(this).siblings('em').show().addClass('ok').removeClass('err');
+                    }
+                    $('.result').html('<p>' + msg + '</p>');
+                }else if( $(this).is('.conpassword') ){ //确认密码框
+                    if (this.value == '') {
+                        msg = '密码不能为空'
+                        $(this).siblings('em').show().addClass('err').removeClass('ok');
+                        $('.result').html('<p>' + msg + '</p>');
+                    } else {
+                        var pass1Val = $('.passworld').val(),
+                            pass2Val = $(this).val();
+                        console.log(pass1Val +' , '+ pass2Val);
+                        if( pass1Val == pass2Val ){
+                            msg = '密码格式正确';
+                            $(this).siblings('em').show().addClass('ok').removeClass('err');
+                        }else{
+                            msg = '两次密码不一致';
+                            $(this).siblings('em').show().addClass('err').removeClass('ok');
+                        }
+                        $('.result').html('<p>' + msg + '</p>');
+                    }
+
+                }
+
+            }).keyup(function(){
+                $('#regform input').triggerHandler('blur');
+            }).focus(function(){
+                $(this).addClass('active')
+                        .parents('.form-group').siblings().find('input').removeClass('active');
+                $('#regform input').triggerHandler('blur');
+            });
+
+
+
+            //表单提交控制
+            $('.submit').submit(function(){
+                $('#regform input').triggerHandler('blur');
+                var numError = $('#loginAjax em.err').length;
+                if(numError){
+                    return false;
+                }
+            });
+
+            /*function mySubmit(flag){
+                return flag;
+            }
+            $("#regform").submit(function(){
+                if(isForm){
+                    return mySubmit(true);
+                }else if(isForm){
+                    return mySubmit(false);
+                }
+            });*/
+        })
+    </script>
+</body>
+</html>

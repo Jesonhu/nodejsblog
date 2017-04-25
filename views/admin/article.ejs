@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>后台-文章发布</title>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" type="text/css" href="/css/theme.css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/admin.css">
+    <script src="/js/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <!--ueditor-->
+    <script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="/ueditor/lang/zh-cn/zh-cn.js"> </script>
+</head>
+<body>
+    <!--头部开始-->
+    <% include header.ejs %>
+    <!--头部结束-->
+
+
+    <!--左侧分类开始-->
+    <% include left_slide.ejs %>
+    <!--左侧分类结束-->
+
+    <div class="content col-md-8">
+        <div class="header">
+
+            <h1 class="page-title">文章发布  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:red;"><%- locals.result %></span></h1>
+
+        </div>
+
+        <ul class="breadcrumb">
+            <li><a href="/admin">首页</a></li>
+            <li class="active">文章发布</li>
+        </ul>
+
+        <div class="article-pub">
+            <form action="/admin/article" enctype="multipart/form-data" method="post" class="form-horizontal">
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label" >文章标题</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control title" name="title">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">标签</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control tag" name="tag">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">文章分类</label>
+                    <div class="col-sm-10">
+                        <select class="form-control typenum" name="typenum">
+                            <option value="1">HTML</option>
+                            <option value="2">css</option>
+                            <option value="3">HTML5</option>
+                            <option value="4">css3</option>
+                            <option value="5">js</option>
+                            <option value="6">jquery</option>
+                            <option value="7">angularJS</option>
+                            <option value="8">nodeJS</option>
+                        </select>
+                    </div>
+                    <span class="typeName"></span>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">作者</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control author" name="author" value="<%= locals.login %>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">作者头像</label>
+                    <div class="col-sm-10">
+                        <input type="file" class="form-control avatar" name="avatar">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">文章封面</label>
+                    <div class="col-sm-10">
+                        <input type="file" class="form-control cover" name="cover">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">文章摘要</label>
+                    <div class="col-sm-10">
+                        <textarea name="summary" class="form-control summary" cols="5" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">文章内容</label>
+                    <div class="col-sm-10">
+                        <!--<textarea name="artcon" id="" rows="5"></textarea>-->
+                        <input type="text" class="hidden content" name="artcon">
+                        <script id="editor" type="text/plain" style="width:100%;height:500px;"></script>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <!--<input type="button" class="btn btn-success submit" value="提交">-->
+                        <button class="btn btn-success" type="submit">发布文章</button>
+                    </div>
+                </div>
+            </form>
+
+            <!--<form action="/admin/articles" method="post" enctype="multipart/form-data">
+                <input type="file" name="cover">
+                &lt;!&ndash;<input type="file" name="avatar" multiple="multiple">&ndash;&gt;
+                <input type="submit" value="上传">
+            </form>-->
+        </div>
+
+    </div>
+
+
+    <script type="text/javascript">
+
+        //实例化编辑器
+        //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+        var ue = UE.getEditor('editor');
+
+        //编辑器是否获得焦点
+        function isFocus(e){
+            alert(UE.getEditor('editor').isFocus());
+            UE.dom.domUtils.preventDefault(e)
+        }
+        //编辑器失去焦点
+        function setblur(e){
+            UE.getEditor('editor').blur();
+            UE.dom.domUtils.preventDefault(e)
+        }
+        //插入给定的内容
+        function insertHtml() {
+            var value = prompt('插入html代码', '');
+            UE.getEditor('editor').execCommand('insertHtml', value)
+        }
+        //创建编辑器
+        function createEditor() {
+            enableBtn();
+            UE.getEditor('editor');
+        }
+        //获得整个html的内容
+        function getAllHtml() {
+            alert(UE.getEditor('editor').getAllHtml())
+        }
+        //获得内容
+        function getContent() {
+            var arr = [];
+            /*arr.push("使用editor.getContent()方法可以获得编辑器的内容");
+            arr.push("内容为：");*/
+            arr.push(UE.getEditor('editor').getContent());
+            //alert(arr.join("\n"));
+            return arr.join("\n");
+        }
+        //获得带格式的纯文本
+        function getPlainTxt() {
+            var arr = [];
+            arr.push("使用editor.getPlainTxt()方法可以获得编辑器的带格式的纯文本内容");
+            arr.push("内容为：");
+            arr.push(UE.getEditor('editor').getPlainTxt());
+            alert(arr.join('\n'))
+        }
+        //写入内容(true)追加内容
+        function setContent(isAppendTo) {
+            var arr = [];
+            arr.push("使用editor.setContent('欢迎使用ueditor')方法可以设置编辑器的内容");
+            UE.getEditor('editor').setContent('欢迎使用ueditor', isAppendTo);
+            alert(arr.join("\n"));
+        }
+        //不可编辑
+        function setDisabled() {
+            UE.getEditor('editor').setDisabled('fullscreen');
+            disableBtn("enable");
+        }
+        //可以编辑
+        function setEnabled() {
+            UE.getEditor('editor').setEnabled();
+            enableBtn();
+        }
+        //获得当前选中的文本
+        function getText() {
+            //当你点击按钮时编辑区域已经失去了焦点，如果直接用getText将不会得到内容，所以要在选回来，然后取得内容
+            var range = UE.getEditor('editor').selection.getRange();
+            range.select();
+            var txt = UE.getEditor('editor').selection.getText();
+            alert(txt)
+        }
+        //获得纯文本
+        function getContentTxt() {
+            var arr = [];
+            arr.push("使用editor.getContentTxt()方法可以获得编辑器的纯文本内容");
+            arr.push("编辑器的纯文本内容为：");
+            arr.push(UE.getEditor('editor').getContentTxt());
+            alert(arr.join("\n"));
+        }
+        //判断是否有内容
+        function hasContent() {
+            var arr = [];
+            arr.push("使用editor.hasContents()方法判断编辑器里是否有内容");
+            arr.push("判断结果为：");
+            arr.push(UE.getEditor('editor').hasContents());
+            alert(arr.join("\n"));
+        }
+        //使编辑器获得焦点
+        function setFocus() {
+            UE.getEditor('editor').focus();
+        }
+        //删除编辑器
+        function deleteEditor() {
+            disableBtn();
+            UE.getEditor('editor').destroy();
+        }
+        function disableBtn(str) {
+            var div = document.getElementById('btns');
+            var btns = UE.dom.domUtils.getElementsByTagName(div, "button");
+            for (var i = 0, btn; btn = btns[i++];) {
+                if (btn.id == str) {
+                    UE.dom.domUtils.removeAttributes(btn, ["disabled"]);
+                } else {
+                    btn.setAttribute("disabled", "true");
+                }
+            }
+        }
+        function enableBtn() {
+            var div = document.getElementById('btns');
+            var btns = UE.dom.domUtils.getElementsByTagName(div, "button");
+            for (var i = 0, btn; btn = btns[i++];) {
+                UE.dom.domUtils.removeAttributes(btn, ["disabled"]);
+            }
+        }
+    </script>
+    <script>
+        $('button[type="submit"]').click(function () {
+            var conData = getContent();
+            $('input.content').val(conData);
+            //console.log($('input.content').val());
+            /*$.ajax({
+                url: '/admin/article',
+                type: 'POST',
+                dataType:'json',
+                contentType:'multipart/form-data',
+                data: {
+                    title: $('.title').val(),
+                    tag: $('.tag').val(),
+                    author: $('.author').val(),
+                    content: conData,
+                    summary: $('.submit').val(),
+                    typenum: $('.typenum option:selected').val()
+                },
+                success: function () {
+
+                }
+
+            })*/
+        });
+    </script>
+
+</body>
+</html>

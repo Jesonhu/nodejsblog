@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>后台-banner3修改</title>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" type="text/css" href="/css/theme.css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <script src="/js/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+    <!-- Demo page code -->
+
+    <style type="text/css">
+        #line-chart {
+            height:300px;
+            width:800px;
+            margin: 0px auto;
+            margin-top: 1em;
+        }
+        .brand { font-family: georgia, serif; }
+        .brand .first {
+            color: #ccc;
+            font-style: italic;
+        }
+        .brand .second {
+            color: #fff;
+            font-weight: bold;
+        }
+    </style>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <!--<link rel="shortcut icon" href="../assets/ico/favicon.ico">-->
+</head>
+
+<!--[if lt IE 7 ]> <body class="ie ie6"> <![endif]-->
+<!--[if IE 7 ]> <body class="ie ie7 "> <![endif]-->
+<!--[if IE 8 ]> <body class="ie ie8 "> <![endif]-->
+<!--[if IE 9 ]> <body class="ie ie9 "> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<body class="">
+<!--<![endif]-->
+
+    <!--头部开始-->
+    <% include header.ejs %>
+    <!--头部结束-->
+
+
+    <!--左侧分类开始-->
+    <% include left_slide.ejs %>
+    <!--左侧分类结束-->
+
+
+
+<div class="content col-md-8">
+
+    <div class="header">
+
+        <h1 class="page-title">banner3管理</h1>
+    </div>
+
+    <ul class="breadcrumb">
+        <li><a href="/admin">首页</a></li>
+        <li class="active">banner3管理</li>
+    </ul>
+
+    <div class="container-fluid">
+        <div class="row-fluid">
+
+            <div class="well">
+                <form action="/admin/banner3" method="post" enctype="multipart/form-data">
+                    <div class="img-wrap">
+                        <div class="left col-md-7">
+                        <img src="<%= data[0]['url']%> " alt="">
+                        </div>
+                        <div>
+                            <input type="file" name="url">
+                            <input class="" type="text" name="name" value="01">
+                            <button type="submit" class="btn btn-success">提交</button>
+                        </div>
+                    </div>
+
+                </form>
+                <form action="/admin/banner3" method="post" enctype="multipart/form-data">
+                    <div class="img-wrap">
+                        <div class="left col-md-7">
+                            <img src="<%= data[1]['url']%> " alt="">
+                        </div>
+                        <div>
+                            <input type="file" name="url">
+                            <input class="" type="text" name="name" value="02">
+                            <button type="submit" class="btn btn-success">提交</button>
+                        </div>
+                    </div>
+
+                </form>
+                <form action="/admin/banner3" method="post" enctype="multipart/form-data">
+                    <div class="img-wrap">
+                        <div class="left col-md-7">
+                            <img src="<%= data[2]['url']%> " alt="">
+                        </div>
+                        <div class="col-md-5">
+                            <input type="file" name="url">
+                            <input class="" type="text" name="name" value="03">
+                            <button type="submit" class="btn btn-success">提交</button>
+                        </div>
+                    </div>
+                </form>
+                <form action="/admin/banner3" method="post" enctype="multipart/form-data">
+                    <div class="img-wrap">
+                        <div class="left col-md-7">
+                            <img src="<%= data[3]['url']%> " alt="">
+                        </div>
+                        <div class="col-md-5">
+                            <input type="file" name="url">
+                            <input class="" type="text" name="name" value="04">
+                            <button type="submit" class="btn btn-success">提交</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--<div class="pagination">
+                <ul>
+                    <li><a href="#">上一页</a></li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">下一页</a></li>
+                </ul>
+            </div>-->
+
+        </div>
+    </div>
+</div>
+
+
+<!-- 删除模态框-Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">删除提示</h4>
+            </div>
+            <div class="modal-body">
+                确认要删除这个用户吗？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="submit"  class="btn btn-primary  delete" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $("[rel=tooltip]").tooltip();
+    $(function() {
+        $('.demo-cancel-click').click(function(){return false;});
+    });
+</script>
+
+</body>
+</html>
+
+

@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <title>文章详情-<%= data[0]['title'] %></title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/font-awesome.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/article.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/article.js"></script>
+</head>
+<body>
+    <!--头部开始-->
+    <% include header.ejs %>
+    <!--头部结束-->
+
+    <div class="container">
+        <div class="row">
+            <!--左侧作者详情 start-->
+            <div class="left-author col-md-2 hidden-sm hidden-xs">
+                <div class="about-author clearfix">
+                    <div class="author-img pull-left">
+                        <img class="img-thumbnail" src="/img/article/logo.png" alt="Jeson"/>
+                    </div>
+                    <p class="pull-right">
+                        <a href="">
+                            <h4 class="name">Jeson</h4>
+                        </a>
+                    <div class="author-info">
+                        <span class="time">2016年2月6日</span>
+                        <i class="icon-heart-empty" data-toggle="tooltip" title="关注" data-placement="top"></i>
+                    </div>
+                    </p>
+                </div>
+                <div class="author-article">
+                    <h4 class="similar-title">同类型还发布了 <span class="more pull-right">More</span></h4>
+                    <ul>
+                        <%if(locals.author){%>
+                            <%for(let i=0;i<author.length;i++){%>
+                            <li><a href="/article_detail/<%= author[i]['id']%>.html" class="text-overflow"><%= author[i]['title']%></a></li>
+                            <%}%>
+                        <%}else{%>
+                        <li><a href="#" class="text-overflow">暂未发布其它文章</a></li>
+                        <%}%>
+                    </ul>
+                </div>
+                <div class="author-like">
+                    <h4 class="similar-title">他的爱好</h4>
+                    <ul class="like-detail">
+                        <li>前端</li>
+                        <li>新奇</li>
+                    </ul>
+                </div>
+            </div>
+            <!--end 左侧作者详情-->
+
+            <!--内容部分 start-->
+            <div class="content col-md-8 col-sm-12">
+                <div class="article-detail-con1 padding-right-13">
+                    <!--面包屑导航 start-->
+                    <!--<ul class = "breadcrumb hidden-xs">
+                        <li><i class = "glyphicon glyphicon-home padding-right-13"></i><a href="javascript:void(0);">首页</a></li>
+                        <li><a href="javascript:void(0);">分类1</a></li>
+                        <li><a href="javascript:void(0);" class="active">人文</a></li>
+                    </ul>-->
+                    <!--end 面包屑导航-->
+
+
+                    <div class="article-wrap">
+                        <!--文章正文 start-->
+                        <h1 class="padding-13 article" data-id="<%= data[0]['id'] %>"><%= data[0]['title'] %></h1>
+                        <div class="padding-13 public">
+                            <a href="">
+                                <img class="img-circle" src="<%= data[0]['avatar'] %>" alt="avatar"/>
+                                <span class="public-author"><%= data[0]['author'] %></span>
+                            </a>
+                            <span class="public-time"><%= data[0]['time'] %></span>
+                        <span class="public-view pull-right" data-toggle="tooltip" title="浏览" data-placement="top">
+                            <i class=" icon-eye-open"></i>
+                            <em class="like-num"><%= data[0]['view'] %></em>
+                        </span>
+                        <span class="public-like pull-right" data-toggle="tooltip" title="收藏" data-placement="top">
+                            <i class="icon-heart-empty"></i>
+                            <em class="like-num"><%= data[0]['store'] %></em>
+                        </span>
+                        </div>
+                        <div class="article-summary">
+                            <p><%= data[0]['summary'] %></p>
+                            <em class="a-s-square left"></em>
+                            <em class="a-s-square right"></em>
+                        </div>
+                        <div class="article-detail padding-13">
+                            <p><%- data[0]['content'] %></p>
+                        </div>
+
+                        <!--end 文章正文-->
+
+                        <!--文章标签 start-->
+                        <div class="article-mark padding-13 clearfix">
+                            <div class="mark-left pull-left" data-toggle="tooltip" title="标签" data-placement="top">
+                                <i class="icon icon-bookmark"></i>
+                                <span><%= data[0]['tag'] %></span>
+                            </div>
+                            <div class="share-right pull-right">
+                                <span>分享到：</span>
+                                <!--<i class="icon-github"></i>-->
+                                <div class="bdsharebuttonbox" style="display:inline-block;margin-top:-4px;"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+                                <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+                            </div>
+                        </div>
+                        <!--end 文章标签-->
+
+                        <!--同类文章 start-->
+                        <%if(locals.more){%>
+                        <div class="article-similar padding-left-13 padding-right-13 hidden-xs">
+                            <h4 class="similar-title">相同类型文章</h4>
+                            <ul class="similar-ul clearfix">
+                                <%for(let i=0;i<data3.length;i++){%>
+                                <li class="col-md-4 col-sm-6 col-xs-12">
+                                    <a href="/article_detail/<%= data3[i]['id'] %>.html">
+                                        <img src="<%= data3[i]['cover'] %>" alt="s1" style="width:100%;height:100%;"/>
+                                        <p><%= data3[i]['title'] %></p>
+                                    </a>
+                                </li>
+                                <%}%>
+                            </ul>
+                        </div>
+                        <%}%>
+                        <!--end 同类文章-->
+
+                        <!--评论开始-->
+                        <div class="send_comment">
+                            <% if(locals.login) {%>
+                                <em class="avatar"><img src="<%= data[0]['avatar'] %>" alt="avatar"></em>
+                                <form action="/article_detail/<%= data[0]['id'] %>.html" method="post" class="clearfix">
+                                    <textarea name="commentcon" id="recomment" cols="5" rows="5"></textarea>
+                                    <button type="submit" class="btn btn-success">发表</button>
+                                </form>
+                            <%}else{%>
+                            <em class="avatar"><img src="/img/avatar_logout.jpg" alt="avatar"></em>
+                            <div class="logout-cover">
+                                <div class="login-point">
+                                    <button class="btn btn-success"><a href="/login">登录</a></button>
+                                    后发表评论
+                                </div>
+                            </div>
+                            <%}%>
+
+                        </div>
+                        <div class="comment-show">
+
+                            <%if(commentData){%>  <!--存在评论才开始循环-->
+                                <div class="com-s-title">
+                                    <span>0条评论</span>
+                                    <button class="btn btn-default btn-sm">只看作者</button>
+                                    <div class="pull-right">
+                                        <ul class="item clearfix">
+                                            <li>按喜欢排序</li>
+                                            <li>按时间排序</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <hr>
+                                <% for(let i in commentData){ %>
+                                <div id="comment-111">
+                                    <div>
+                                        <div class="author">
+                                            <a href=""><img src="/img/avatar_logout.jpg" alt=""></a>
+                                            <div class="info">
+                                                <a href="#" class="name">Jesonhu</a>
+                                                <div class="meta">
+                                                    <span>x楼<%= commentData[i]['time']  %> </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="comment-wrap">
+                                            <p><%= commentData[i]['content']  %></p>
+                                            <div class="tool-group">
+                                                <a href="">
+                                                    <i class="icon-thumbs-up-alt"></i>
+                                                    <span>0人赞</span>
+                                                </a>
+                                                <a href="">
+                                                    <i class="icon-comment-alt"></i>
+                                                    <span>回复</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <%}%>
+                            <%}else{%>  <!--无评论的时候-->
+                                <div class="com-s-title">
+                                    <span>0条评论</span>
+                                    <button class="btn btn-default btn-sm">只看作者</button>
+                                    <div class="pull-right">
+                                        <ul class="item clearfix">
+                                            <li>按喜欢排序</li>
+                                            <li>按时间排序</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <hr>
+                            <%}%>
+                            <!--<div id="comment-222">
+                                <div>
+                                    <div class="author">
+                                        <a href=""><img src="" alt=""></a>
+                                        <div class="info">
+                                            <a href="" class="name">Jesonhu</a>
+                                            <div class="meta">
+                                                <span>5楼 2017-3-23</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="comment-wrap">
+                                        <p>回复内容</p>
+                                        <div class="tool-group">
+                                            <a href="">
+                                                <i class="icon-thumbs-up-alt"></i>
+                                                <span>1人赞</span>
+                                            </a>
+                                            <a href="">
+                                                <i class="icon-comment-alt"></i>
+                                                <span>回复</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="sub-comment-list">
+                                    <div id="comment-333" class="sub-comment">
+                                        <p>
+                                            <a href="" class="name">小明</a>:
+                                            <span>
+                                                <a href="" class="res-author">@jesonhu</a>
+                                                是不是很帅
+                                            </span>
+                                        </p>
+                                        <div class="sub-tool-group">
+                                            <span>2017.3.23 07:22</span>
+                                            <a href="">
+                                                <i class="icon-comment-alt"></i>
+                                                <span>回复</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div id="comment-444" class="sub-comment">
+                                        <p>
+                                            <a href="" class="name">jesonhu</a>:
+                                            <span>
+                                                <a href="" class="res-author">@小明</a>
+                                                你又调皮了
+                                            </span>
+                                        </p>
+                                        <div class="sub-tool-group">
+                                            <span>2017.3.23 08:23</span>
+                                            <a href="">
+                                                <i class="icon-comment-alt"></i>
+                                                <span>回复</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="sub-add-comment">
+                                        <a href="">
+                                            <i class="icon-edit"></i>
+                                            <span>添加新评论</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div id="comment-444">
+                                <div>
+                                    <div class="author">
+                                        <a href=""><img src="" alt=""></a>
+                                        <div class="info">
+                                            <a href="" class="name">张三</a>
+                                            <div class="meta">
+                                                <span>4楼 2017-3-23</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="comment-wrap">
+                                        <p>回复内容</p>
+                                        <div class="tool-group">
+                                            <a href="">
+                                                <i class="icon-thumbs-up-alt"></i>
+                                                <span>1人赞</span>
+                                            </a>
+                                            <a href="">
+                                                <i class="icon-comment-alt"></i>
+                                                <span>回复</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>-->
+
+                            <!--<div class="page-wrap">
+                                <ul class="pagination">
+                                    <li class="disabled"><a href="">&laquo;</a></li>
+                                    <li class="active"><a href="">1</a></li>
+                                    <li><a href="">2</a></li>
+                                    <li><a href="">3</a></li>
+                                    <li><a href="">&raquo;</a></li>
+                                </ul>
+                            </div>-->
+                        </div>
+                        <!--评论结束-->
+                    </div>
+
+
+                </div>
+
+            </div>
+            <!--end 内容部分-->
+
+            <!--右侧分类开始-->
+            <!--nav start-->
+            <% include right_slide_nav.ejs %>
+            <!--end nav-->
+            <!--右侧分类结束-->
+        </div>
+    </div>
+
+    <!--底部部开始-->
+    <% include footer.ejs %>
+    <!--底部部结束-->
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <title>模板修改</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/jquery.min.js"></script>
+    <style>
+        p{
+            background:#000;
+            color:#fff;
+            width:200px;
+            padding:5px 0px;
+            cursor: pointer;
+        }
+        span,
+        textarea{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <%for(var i in dir){%>
+        <% if( dir[i].includes('.') ){%>
+            <p data-dirtype="1" onclick="next(this)"><%= dir[i]%></p>
+        <%}else{%>
+            <p data-dirtype="2" onclick="next(this)"><%= dir[i]%></p>
+        <%}%>
+    <%}%>
+
+    <script>
+        let dirtype,
+            html,
+            dirname;
+        //点击列表文件名
+        function next(ele){
+             dirtype = ele.getAttribute('data-dirtype');
+             dirname = ele.getAttribute('data-dirname');
+             if(dirname === null){ //data-dirname不存在时
+                 dirname = $(ele).text();
+             }else{
+                 dirname = `${dirname}/${$(ele).text()}`;
+             };
+            $.ajax({
+                url: '/admin/views',
+                type: 'POST',
+                data: {
+                    dirname: dirname,
+                    dirtype: dirtype
+                },
+                success: function (data) {
+                    if(data.dirtype === '2'){
+                        $('body').html(''); //先清空之前的内容
+                        for(let i in data.content){
+                            if(data.content[i].includes('.')){ //是文件时
+                                html = $('body').html();
+                                html += `<p data-dirname='${data.dirname}' onclick=next(this) data-dirtype='1'>${data.content[i]}</p>`;
+                                $('body').html(html);
+                            }else{ //是文件夹时
+                                html = $('body').html();
+                                html += `<p onclick=next(this) data-dirtype='2'>${data.content[i]}</p>`;
+                                $('body').html(html);
+                            }
+                        }
+                    }else{
+                        let html = `<p>${data.dirname}</p><button data-dirname='${data.dirname}' onclick=back(this) class="btn btn-info">返回</button>
+                    <textarea>${data.content}</textarea>
+                    <button onclick=save(this) class="btn btn-success">修改</button>`;
+                        $('body').html(html); //修改dom
+                    }
+                }
+            });
+        };
+
+        //点击返回
+        function back(ele){
+            //console.log(ele.getAttribute('data-dirname').substring(0,5));
+            $.ajax({
+                url: '/admin/views',
+                type: 'post',
+                data: {
+                    dirtype: '2',
+                    dirname: ele.getAttribute('data-dirname').includes('/') ? ele.getAttribute('data-dirname').substring(0,5) : ''
+                },
+                success: function (data) {
+                    $('body').html('');
+                    for(let i in data.content){
+                        if(data.content[i].includes('.')){
+                            html = $('body').html();
+                            html += `<p onclick=next(this) data-dirtype='1'>${data.content[i]}</p>`;
+                            $('body').html(html);
+                        }else{
+                            html = $('body').html();
+                            html += `<p onclick=next(this) data-dirtype='2'>${data.content[i]}</p>`;
+                            $('body').html(html);
+                        }
+                    }
+                }
+            });
+        };
+
+        //修改保存
+        function save(ele) {
+            $.ajax({
+                url: '/admin/views',
+                type: 'post',
+                data: {
+                    dirtype: '3',
+                    dirname: dirname,
+                    content: $('textarea').val()
+                },
+                success: function (data) {
+                    alert(data.result);
+                }
+            })
+        }
+    </script>
+</body>
+</html>

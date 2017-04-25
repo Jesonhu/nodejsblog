@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    用户名：<input type="text" class="name"> <button class="join">进入聊天室</button>
+    <div id="con"></div>
+    <input type="text"><button onclick="submit()">发送</button>
+
+
+    <!--引入的原因：当这个服务不能用时使用ajax轮查询继续通信-->
+    <script src="socket.io.min.js"></script>
+    <script>
+        let socket, //开始连接 将连接保存起来
+              joinBtn = document.querySelector('.join'),
+              div = document.getElementById('con');
+
+        let name,userId;
+        joinBtn.onclick = function () { //输入用户名 点击进入聊天室
+            name = document.querySelector('.name').value();
+            userId = '123';
+
+        };
+        socket.on('login', function (data) {
+            div.innerHTML += `${data.name}加入聊天室<br>`;
+            init(name);
+        });
+        function init(username){
+            userid = Date.now(); //创建一个世界搓
+            那么= username;
+            socket = io.connect('/');
+            socket.emit('login', {name: name, userId: userId});
+
+        };
+        function submit(){
+          let txt = document.getElementsByTagName('input')[0].value;
+          socket.emit('msg', {content: txt});
+        };
+        socket.on('liaotian', function (data) {
+            div.innerHTML += `${data.content}<br>`;
+        })
+
+        /*socket.on('wulv', function (data) { //前台监听到后台发送的信息后输出
+            console.log(data);
+            socket.emit('xiexie', {name:'收到'}); //前台收到信息时给服务器发送信息
+        });*/
+    </script>
+</body>
+</html>
