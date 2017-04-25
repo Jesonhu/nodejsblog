@@ -2,9 +2,9 @@
 
     1 安装nodejs 
     
-    2 本地搭建数据库（如：mysql可以使用wampserver）
+    2 本地搭建数据库（如：项目使用mysql，本地通过wampserver搭建mysql数据库）
     
-    3 mysql新建 名为mynode的数据库 导入.sql数据库文件
+    3 mysql新建名为mynode的数据库 导入.sql数据库文件
     
     4 运行wampserver
     
